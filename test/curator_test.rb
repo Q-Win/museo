@@ -69,7 +69,19 @@ class CuratorTest < Minitest::Test
     end
 
     def test_we_can_find_photo_by_id
+      curator = Curator.new
+      photograph_1 = {
+      id: "1",  name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",  year: "1954"}
+      photograph_2 = {
+      id: "2", name: "Moonrise, Hernandez",
+      artist_id: "2",year: "1941"}
 
-    end 
+      photo_1 = curator.add_photograph(photograph_1)
+      photo_2 = curator.add_photograph(photograph_2)
+
+      assert_equal photo_2 , curator.find_photograph_by_id("2")
+      assert_equal nil, curator.find_photograph_by_id("5")
+    end
 
   end
