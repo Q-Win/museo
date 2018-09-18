@@ -69,7 +69,16 @@ class Curator
                     :country => artist[:country]})
       @artists << artist
     end
-
   end
+
+  def photographs_taken_between(range)
+    range_array = range.to_a
+    @photographs.find_all {|photo|
+      photo.year.to_i.between?(range_array[0],range_array[-1]) == true}
+  end
+
+  def artists_photographs_by_age
+
+  end 
 
 end

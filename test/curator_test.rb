@@ -385,7 +385,22 @@ class CuratorTest < Minitest::Test
     def test_we_can_load_artists_from_csv
       curator = Curator.new
       curator.load_artists('./data/artists.csv')
-      
+
       assert_equal 6, curator.artists.length
+    end
+
+    def test_we_can_find_photos_taken_in_a_time_range
+      curator = Curator.new
+      curator.load_photographs('./data/photographs.csv')
+      curator.load_artists('./data/artists.csv')
+
+      assert_equal 2, curator.photographs_taken_between(1950..1965).length
+    end
+
+    def test_we_can_make_a_hash_of_artists_photo_by_age
+      curator = Curator.new
+      curator.load_photographs('./data/photographs.csv')
+      curator.load_artists('./data/artists.csv')
+
     end
   end
