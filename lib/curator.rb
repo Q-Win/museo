@@ -77,8 +77,15 @@ class Curator
       photo.year.to_i.between?(range_array[0],range_array[-1]) == true}
   end
 
-  def artists_photographs_by_age
-
-  end 
+  def artists_photographs_by_age(artist)
+    artist_birth_year = artist.born.to_i
+    artist_photos = find_photographs_by_artist(artist)
+    artist_hash = {}
+    artist_photos.each do |photo|
+      age = photo.year.to_i - artist_birth_year
+      artist_hash[age] = photo.name
+    end
+    artist_hash
+  end
 
 end
