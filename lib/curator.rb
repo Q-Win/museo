@@ -39,8 +39,14 @@ class Curator
     @artists.find_all{|artist| find_photographs_by_artist(artist).length >= 2}
   end
 
-  # def get_artists_photo_count
-  #
-  # end
+  def artists_by_country(string)
+    @artists.find_all{|artist| artist.country == string}
+  end
+
+  def photographs_taken_by_artists_from(string)
+    artists_by_country(string).map do |artist|
+      find_photographs_by_artist(artist)
+    end.flatten
+  end
 
 end

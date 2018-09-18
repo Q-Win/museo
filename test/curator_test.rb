@@ -184,6 +184,79 @@ class CuratorTest < Minitest::Test
 
       photo_hash_5 = {
       id: "4",
+      name: "Child",
+      artist_id: "1",
+      year: "1962"
+      }
+
+      artist_hash_1 = {
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+      }
+
+      artist_hash_2 = {
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+      }
+
+      artist_hash_3 = {
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+      }
+
+      photo_1 = curator.add_photograph(photo_hash_1)
+      photo_2 = curator.add_photograph(photo_hash_2)
+      photo_3 = curator.add_photograph(photo_hash_3)
+      photo_4 = curator.add_photograph(photo_hash_4)
+      photo_5 = curator.add_photograph(photo_hash_5)
+      artist_1 = curator.add_artist(artist_hash_1)
+      artist_2 = curator.add_artist(artist_hash_2)
+      artist_3 = curator.add_artist(artist_hash_3)
+
+      assert_equal [artist_1, artist_3], curator.artists_with_multiple_photographs
+    end
+
+    def test_we_can_get_artists_by_country
+      curator = Curator.new
+      photo_hash_1 = {
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+      }
+
+      photo_hash_2 = {
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+      }
+
+      photo_hash_3 = {
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+      }
+
+      photo_hash_4 = {
+      id: "4",
+      name: "Child with Toy Hand Grenade in Central Park",
+      artist_id: "3",
+      year: "1962"
+      }
+
+      photo_hash_5 = {
+      id: "4",
       name: "Child with Toy Hand Grenade in Central Park",
       artist_id: "1",
       year: "1962"
@@ -221,8 +294,85 @@ class CuratorTest < Minitest::Test
       artist_1 = curator.add_artist(artist_hash_1)
       artist_2 = curator.add_artist(artist_hash_2)
       artist_3 = curator.add_artist(artist_hash_3)
-      
-      assert_equal [artist_1, artist_3], curator.artists_with_multiple_photographs
+
+      assert_equal [artist_2, artist_3], curator.artists_by_country("United States")
+      assert_equal [artist_1], curator.artists_by_country("France")
+      assert_equal [], curator.artists_by_country("Argentina")
+    end
+
+    def test_we_get_photos_taken_by_artists_from
+      curator = Curator.new
+      photo_hash_1 = {
+      id: "1",
+      name: "Rue Mouffetard, Paris (Boy with Bottles)",
+      artist_id: "1",
+      year: "1954"
+      }
+
+      photo_hash_2 = {
+      id: "2",
+      name: "Moonrise, Hernandez",
+      artist_id: "2",
+      year: "1941"
+      }
+
+      photo_hash_3 = {
+      id: "3",
+      name: "Identical Twins, Roselle, New Jersey",
+      artist_id: "3",
+      year: "1967"
+      }
+
+      photo_hash_4 = {
+      id: "4",
+      name: "Child with Toy Hand Grenade in Central Park",
+      artist_id: "3",
+      year: "1962"
+      }
+
+      photo_hash_5 = {
+      id: "5",
+      name: "Child with Toy Hand Grenade in Central Park",
+      artist_id: "1",
+      year: "1962"
+      }
+
+      artist_hash_1 = {
+      id: "1",
+      name: "Henri Cartier-Bresson",
+      born: "1908",
+      died: "2004",
+      country: "France"
+      }
+
+      artist_hash_2 = {
+      id: "2",
+      name: "Ansel Adams",
+      born: "1902",
+      died: "1984",
+      country: "United States"
+      }
+
+      artist_hash_3 = {
+      id: "3",
+      name: "Diane Arbus",
+      born: "1923",
+      died: "1971",
+      country: "United States"
+      }
+
+      photo_1 = curator.add_photograph(photo_hash_1)
+      photo_2 = curator.add_photograph(photo_hash_2)
+      photo_3 = curator.add_photograph(photo_hash_3)
+      photo_4 = curator.add_photograph(photo_hash_4)
+      photo_5 = curator.add_photograph(photo_hash_5)
+      artist_1 = curator.add_artist(artist_hash_1)
+      artist_2 = curator.add_artist(artist_hash_2)
+      artist_3 = curator.add_artist(artist_hash_3)
+
+      assert_equal [photo_2, photo_3, photo_4], curator.photographs_taken_by_artists_from("United States")
+      assert_equal [], curator.photographs_taken_by_artists_from("Argentina")
+      assert_equal [photo_1, photo_5], curator.photographs_taken_by_artists_from("France")
     end
 
   end
