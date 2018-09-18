@@ -1,5 +1,6 @@
 require './lib/photograph'
 require './lib/artist'
+require "csv"
 
 class Curator
 
@@ -47,6 +48,28 @@ class Curator
     artists_by_country(string).map do |artist|
       find_photographs_by_artist(artist)
     end.flatten
+  end
+
+  def load_photographs(path)
+    total_photos = CSV.read(path, headers: true, header_converters: :symbol)
+    total_photos.each do |photo|
+      photograph = Photograph.new({:id => photo[:id], :name => photo[:name],
+                    :artist_id => photo[:artist_id],
+                    :year => photo[:year]})
+      @photographs << photograph
+    end
+
+  end
+
+  def load_artists(path)
+    total_artists = CSV.read(path, headers: true, header_converters: :symbol)
+    total_artists.each do |artist|
+      artist = Artist.new({:id => artist[:id], :name => artist[:name],
+                    :born => artist[:born], :died => artist[:died],
+                    :country => artist[:country]})
+      @artists << artist
+    end
+
   end
 
 end
